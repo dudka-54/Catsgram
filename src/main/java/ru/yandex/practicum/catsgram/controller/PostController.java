@@ -9,6 +9,7 @@ import ru.yandex.practicum.catsgram.service.PostService;
 
 import java.util.Collection;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/posts")
@@ -30,11 +31,11 @@ public class PostController {
     @GetMapping(value = "/{id}")
     @ResponseBody
     public Post getPostOnId(@PathVariable long id){
-        Post post = postService.findPostById(id);
-        if(post == null){
+        Optional<Post> post = postService.findPostById(id);
+        if(post.isEmpty()){
             throw new NoSuchElementException();
         } else {
-            return post;
+            return post.orElse(null);
         }
     }
 

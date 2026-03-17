@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.yandex.practicum.catsgram.exception.ConditionsNotMetException;
 import ru.yandex.practicum.catsgram.model.Post;
+import ru.yandex.practicum.catsgram.model.User;
 
 import java.time.Instant;
 import java.util.*;
@@ -86,9 +87,16 @@ public class PostService {
             }
         }
     }
+    private Collection<Post> findAll() {
+        return posts.values();
+    }
 
-    public Post findPostById(long id){
-        return posts.get(id);
+
+    public Optional<Post> findPostById(long id) {
+        return Optional.ofNullable(findAll().stream()
+                .filter(u -> u.getId().equals(id))
+                .findAny()
+                .orElseThrow(() -> new ConditionsNotMetException("Автор с id = " + id + " не найден")));
     }
 
     public Post create(Post post) {
