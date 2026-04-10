@@ -9,8 +9,6 @@ import java.time.Instant;
 
 @EqualsAndHashCode(of = { "id" })
 @Data
-@Getter
-@Setter
 public class User {
     Long id;
     String username;
